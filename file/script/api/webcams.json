@@ -1,0 +1,65 @@
+{
+  "title": "Milan: Piazza San Babila",
+  "viewCount": 44882,
+  "webcamId": 1665404395,
+  "status": "active",
+  "lastUpdatedOn": "2025-01-18T21:25:51.000Z",
+  "categories": [
+    {
+      "id": "traffic",
+      "name": "Street/Traffic"
+    },
+    {
+      "id": "city",
+      "name": "City"
+    }
+  ],
+  "images": {
+    "current": {
+      "icon": "https://images-webcams.windy.com/public/95/1665404395/current/icon/1665404395.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ3ZWJjYW1faWQiOjE2NjU0MDQzOTUsInVzZXJfdHlwZSI6MCwiYXZhaWxhYmxlX3NpemVzIjoidGVhc2VyYmcsaWNvbix0aHVtYm5haWwscHJldmlldyIsImlhdCI6MTczNzIzNzAxNSwiZXhwIjoxNzM3MjM3NjE1fQ.6ShHjQ-6epB8iQQa6ehoaECRkkzHqeXV2YYZ0zfuk0Y",
+      "thumbnail": "https://images-webcams.windy.com/public/95/1665404395/current/thumbnail/1665404395.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ3ZWJjYW1faWQiOjE2NjU0MDQzOTUsInVzZXJfdHlwZSI6MCwiYXZhaWxhYmxlX3NpemVzIjoidGVhc2VyYmcsaWNvbix0aHVtYm5haWwscHJldmlldyIsImlhdCI6MTczNzIzNzAxNSwiZXhwIjoxNzM3MjM3NjE1fQ.6ShHjQ-6epB8iQQa6ehoaECRkkzHqeXV2YYZ0zfuk0Y",
+      "preview": "https://images-webcams.windy.com/public/95/1665404395/current/preview/1665404395.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ3ZWJjYW1faWQiOjE2NjU0MDQzOTUsInVzZXJfdHlwZSI6MCwiYXZhaWxhYmxlX3NpemVzIjoidGVhc2VyYmcsaWNvbix0aHVtYm5haWwscHJldmlldyIsImlhdCI6MTczNzIzNzAxNSwiZXhwIjoxNzM3MjM3NjE1fQ.6ShHjQ-6epB8iQQa6ehoaECRkkzHqeXV2YYZ0zfuk0Y"
+    },
+    "sizes": {
+      "icon": {
+        "width": 48,
+        "height": 48
+      },
+      "thumbnail": {
+        "width": 200,
+        "height": 112
+      },
+      "preview": {
+        "width": 400,
+        "height": 224
+      }
+    },
+    "daylight": {
+      "icon": "https://images-webcams.windy.com/public/95/1665404395/daylight/icon/1665404395.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ3ZWJjYW1faWQiOjE2NjU0MDQzOTUsInVzZXJfdHlwZSI6MCwiYXZhaWxhYmxlX3NpemVzIjoidGVhc2VyYmcsaWNvbix0aHVtYm5haWwscHJldmlldyIsImlhdCI6MTczNzIzNzAxNSwiZXhwIjoxNzM3MjM3NjE1fQ.6ShHjQ-6epB8iQQa6ehoaECRkkzHqeXV2YYZ0zfuk0Y",
+      "thumbnail": "https://images-webcams.windy.com/public/95/1665404395/daylight/thumbnail/1665404395.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ3ZWJjYW1faWQiOjE2NjU0MDQzOTUsInVzZXJfdHlwZSI6MCwiYXZhaWxhYmxlX3NpemVzIjoidGVhc2VyYmcsaWNvbix0aHVtYm5haWwscHJldmlldyIsImlhdCI6MTczNzIzNzAxNSwiZXhwIjoxNzM3MjM3NjE1fQ.6ShHjQ-6epB8iQQa6ehoaECRkkzHqeXV2YYZ0zfuk0Y",
+      "preview": "https://images-webcams.windy.com/public/95/1665404395/daylight/preview/1665404395.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ3ZWJjYW1faWQiOjE2NjU0MDQzOTUsInVzZXJfdHlwZSI6MCwiYXZhaWxhYmxlX3NpemVzIjoidGVhc2VyYmcsaWNvbix0aHVtYm5haWwscHJldmlldyIsImlhdCI6MTczNzIzNzAxNSwiZXhwIjoxNzM3MjM3NjE1fQ.6ShHjQ-6epB8iQQa6ehoaECRkkzHqeXV2YYZ0zfuk0Y"
+    }
+  },
+  "location": {
+    "city": "Milan",
+    "region": "Lombardy",
+    "region_code": "IT.09",
+    "country": "Italy",
+    "country_code": "IT",
+    "continent": "Europe",
+    "continent_code": "EU",
+    "latitude": 45.46698,
+    "longitude": 9.1976
+  },
+  "player": {
+    "day": "https://webcams.windy.com/webcams/public/embed/player/1665404395/day",
+    "month": "https://webcams.windy.com/webcams/public/embed/player/1665404395/month",
+    "year": "https://webcams.windy.com/webcams/public/embed/player/1665404395/year",
+    "lifetime": "https://webcams.windy.com/webcams/public/embed/player/1665404395/lifetime"
+  },
+  "urls": {
+    "detail": "https://windy.com/webcams/1665404395",
+    "edit": "https://windy.com/webcams/edit/1665404395",
+    "provider": "https://www.webcamgalore.it/webcam/Italia/Milano/31066.html"
+  }
+}

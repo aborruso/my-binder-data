@@ -14,23 +14,28 @@ command -v montage >/dev/null 2>&1 || { echo >&2 "ImageMagick non installato. In
 
 # Configurazioni
 API_KEY=${WINDY_API_KEY}
-PALERMO_LAT=38.1157
-PALERMO_LON=13.3615
+PALERMO_LAT=38.1295726276908
+PALERMO_LON=13.3471925068464
 RADIUS=30
-LIMIT=9
+LIMIT=20  # Recuperiamo 20 webcam per poi selezionare le 9 più vicine
 OUTPUT_DIR="webcam_images"
 MOSAIC_OUTPUT="mosaico_palermo.jpg"
 
 # Crea directory output
 mkdir -p $OUTPUT_DIR
 
-# Ottieni le prime 9 webcam vicino a Palermo
+# Ottieni le prime 20 webcam vicino a Palermo
 echo "Recupero le webcam nel raggio di 30 km da Palermo..."
 RESPONSE=$(curl -s -H "x-windy-api-key: $API_KEY" \
   "https://api.windy.com/webcams/api/v3/webcams?nearby=$PALERMO_LAT,$PALERMO_LON,$RADIUS&limit=$LIMIT")
 
-# Verifica se la risposta contiene webcam
-WEB_CAMS=$(echo "$RESPONSE" | jq -r '.webcams[].webcamId?')
+# Seleziona le 9 webcam più vicine
+echo "Seleziono le 9 webcam più vicine..."
+WEB_CAMS=$(echo "$RESPONSE" | jq -r --argjson lat "$PALERMO_LAT" --argjson lon "$PALERMO_LON" '
+  .webcams | sort_by((.location.latitude - $lat) * (.location.latitude - $lat) + 
+                     (.location.longitude - $lon) * (.location.longitude - $lon)) | 
+  .[0:9] | .[].webcamId
+')
 if [ -z "$WEB_CAMS" ]; then
   echo "Errore: Nessuna webcam trovata nel raggio specificato"
   echo "Risposta API:"

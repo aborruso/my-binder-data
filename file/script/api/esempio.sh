@@ -33,10 +33,17 @@ RESPONSE=$(curl -s -H "x-windy-api-key: $API_KEY" \
 echo "Risposta API:"
 echo "$RESPONSE" | jq
 
+# Prima otteniamo i dettagli completi di ogni webcam per estrarre le coordinate
+echo "Recupero i dettagli delle webcam per estrarre le coordinate..."
+WEB_CAMS_DETAILS=$(for WEB_CAM in $(echo "$RESPONSE" | jq -r '.webcams[].webcamId'); do
+  curl -s -H "x-windy-api-key: $API_KEY" \
+    "https://api.windy.com/webcams/api/v3/webcams/$WEB_CAM?include=location"
+  echo
+done | jq -s)
+
 # Seleziona le 9 webcam più vicine con coordinate valide
 echo "Seleziono le 9 webcam più vicine con coordinate valide..."
-WEB_CAMS=$(echo "$RESPONSE" | jq -r --argjson lat "$PALERMO_LAT" --argjson lon "$PALERMO_LON" '
-  .webcams | 
+WEB_CAMS=$(echo "$WEB_CAMS_DETAILS" | jq -r --argjson lat "$PALERMO_LAT" --argjson lon "$PALERMO_LON" '
   map(select(.location.latitude != null and .location.longitude != null)) |
   sort_by(((.location.latitude - $lat) | tonumber | . * .) + 
           ((.location.longitude - $lon) | tonumber | . * .)) | 

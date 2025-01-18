@@ -30,7 +30,7 @@ RESPONSE=$(curl -s -H "x-windy-api-key: $API_KEY" \
   "https://api.windy.com/webcams/api/v3/webcams?nearby=$PALERMO_LAT,$PALERMO_LON,$RADIUS&limit=$LIMIT")
 
 # Verifica se la risposta contiene webcam
-WEB_CAMS=$(echo "$RESPONSE" | jq -r '.result.webcams[].id?')
+WEB_CAMS=$(echo "$RESPONSE" | jq -r '.webcams[].webcamId?')
 if [ -z "$WEB_CAMS" ]; then
   echo "Errore: Nessuna webcam trovata nel raggio specificato"
   echo "Risposta API:"

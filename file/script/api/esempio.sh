@@ -25,10 +25,10 @@ CENTER_LAT=$1
 CENTER_LON=$2
 RADIUS=30
 LIMIT=20  # Recuperiamo 20 webcam per poi selezionare le 9 più vicine
-OUTPUT_DIR="webcam_images"
-MOSAIC_OUTPUT="mosaico_${CENTER_LAT}_${CENTER_LON}.jpg"
+OUTPUT_DIR="webcam_images_${CENTER_LAT}_${CENTER_LON}"
+MOSAIC_OUTPUT="${OUTPUT_DIR}/mosaico_${CENTER_LAT}_${CENTER_LON}.jpg"
 
-# Crea directory output
+# Crea directory output principale
 mkdir -p $OUTPUT_DIR
 
 # Ottieni le prime 20 webcam vicino alle coordinate specificate
@@ -91,7 +91,12 @@ for WEB_CAM in $WEB_CAMS; do
   
   if [ "$IMAGE_URL" != "null" ]; then
     echo "Scarico immagine da $IMAGE_URL"
-    curl -s "$IMAGE_URL" -o "$OUTPUT_DIR/webcam_$WEB_CAM.jpg"
+    # Crea sottodirectory per la webcam
+    WEB_CAM_DIR="$OUTPUT_DIR/$WEB_CAM"
+    mkdir -p "$WEB_CAM_DIR"
+    
+    # Scarica immagine nella sottodirectory
+    curl -s "$IMAGE_URL" -o "$WEB_CAM_DIR/webcam_$WEB_CAM.jpg"
     echo "Scaricata webcam $WEB_CAM"
   else
     echo "Nessuna immagine daylight disponibile per webcam $WEB_CAM"
@@ -100,7 +105,7 @@ done
 
 # Crea mosaico 3x3
 echo "Creo mosaico 3x3..."
-IMAGES=$(ls $OUTPUT_DIR/*.jpg 2>/dev/null | head -n 9)
+IMAGES=$(find $OUTPUT_DIR -name "*.jpg" | head -n 9)
 
 if [ -z "$IMAGES" ]; then
   echo "Errore: Nessuna immagine scaricata"

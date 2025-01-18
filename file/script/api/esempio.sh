@@ -26,9 +26,17 @@ mkdir -p $OUTPUT_DIR
 
 # Ottieni le prime 9 webcam vicino a Palermo
 echo "Recupero le webcam nel raggio di 30 km da Palermo..."
-WEB_CAMS=$(curl -s -H "x-windy-api-key: $API_KEY" \
-  "https://api.windy.com/webcams/api/v3/webcams?nearby=$PALERMO_LAT,$PALERMO_LON,$RADIUS&limit=$LIMIT" | \
-  jq -r '.result.webcams[].id')
+RESPONSE=$(curl -s -H "x-windy-api-key: $API_KEY" \
+  "https://api.windy.com/webcams/api/v3/webcams?nearby=$PALERMO_LAT,$PALERMO_LON,$RADIUS&limit=$LIMIT")
+
+# Verifica se la risposta contiene webcam
+WEB_CAMS=$(echo "$RESPONSE" | jq -r '.result.webcams[].id?')
+if [ -z "$WEB_CAMS" ]; then
+  echo "Errore: Nessuna webcam trovata nel raggio specificato"
+  echo "Risposta API:"
+  echo "$RESPONSE" | jq
+  exit 1
+fi
 
 # Scarica le immagini daylight
 echo "Scarico le immagini daylight..."

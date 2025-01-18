@@ -1,0 +1,29 @@
+# Imposta il comportamento di default per i file di testo
+* text=auto
+
+# Forza i file di testo a usare line endings LF (Unix)
+*.txt text eol=lf
+*.md text eol=lf
+*.py text eol=lf
+*.sh text eol=lf
+*.js text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+*.json text eol=lf
+*.xml text eol=lf
+
+# Specifica i file binari che non devono essere modificati
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.gz binary
+*.tar binary
+*.jar binary
+
+# Eccezioni specifiche per Windows
+*.bat text eol=crlf
+*.cmd text eol=crlf

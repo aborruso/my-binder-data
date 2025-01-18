@@ -73,13 +73,21 @@ Questo esempio:
 3. La salva come file JPG
 
 ## Filtri Utili (da aggiungere alla query)
-- `nearby=lat,lon,radius` (es. "45.4642,9.1900,50")
+- `nearby=lat,lon,radius` (es. "45.4642,9.1900,50") - radius è in kilometri
 - `category=category_id` (es. "beach")
 - `country=country_code` (es. "IT")
 - `limit=numero` (default 10, max 100)
 - `offset=numero` (per paginazione)
 
 Esempio con filtri:
+
+1. Webcam nel raggio di 30 km dal centro di Palermo (38.1157,13.3615):
+```bash
+curl -s -H "x-windy-api-key: $WINDY_API_KEY" \
+  "https://api.windy.com/webcams/api/v3/webcams?nearby=38.1157,13.3615,30" | jq
+```
+
+2. Webcam nel raggio di 50 km da Milano (45.4642,9.1900), limite 3 risultati:
 ```bash
 curl -s -H "x-windy-api-key: $WINDY_API_KEY" \
   "https://api.windy.com/webcams/api/v3/webcams?nearby=45.4642,9.1900,50&limit=3" | jq

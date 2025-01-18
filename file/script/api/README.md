@@ -54,6 +54,24 @@ curl -s -H "x-windy-api-key: $WINDY_API_KEY" \
   jq '.images.current'
 ```
 
+### 6. Scaricare e salvare un'immagine
+```bash
+# Ottieni l'URL dell'immagine preview
+IMAGE_URL=$(curl -s -H "x-windy-api-key: $WINDY_API_KEY" \
+  "https://api.windy.com/webcams/api/v3/webcams/1665404395?include=images" | \
+  jq -r '.images.current.preview')
+
+# Scarica e salva l'immagine
+curl -s "$IMAGE_URL" -o milano_san_babila.jpg
+
+echo "Immagine salvata come milano_san_babila.jpg"
+```
+
+Questo esempio:
+1. Recupera l'URL dell'immagine preview
+2. Scarica l'immagine usando curl
+3. La salva come file JPG
+
 ## Filtri Utili (da aggiungere alla query)
 - `nearby=lat,lon,radius` (es. "45.4642,9.1900,50km")
 - `category=category_id` (es. "beach")

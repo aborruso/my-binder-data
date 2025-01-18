@@ -28,18 +28,24 @@ curl -s -H "x-windy-api-key: $WINDY_API_KEY" \
   "https://api.windy.com/webcams/api/v3/webcams/$WEB_CAM_ID" | jq
 ```
 
-### 3. Ottenere informazioni immagini per Piazza San Babila, Milano (ID 1665404395)
+### 3. Ottenere informazioni su Piazza San Babila, Milano (ID 1665404395)
 ```bash
 curl -s -H "x-windy-api-key: $WINDY_API_KEY" \
-  "https://api.windy.com/webcams/api/v3/webcams/1665404395" | \
-  jq '.result.webcam.images'
+  "https://api.windy.com/webcams/api/v3/webcams/1665404395" | jq
 ```
 
 Questo comando restituirà:
-- URL dell'immagine corrente
-- URL dell'immagine diurno
-- URL dell'immagine notturno
-- Informazioni sull'aggiornamento
+- Titolo della webcam
+- Numero di visualizzazioni
+- Stato della webcam
+- Data ultimo aggiornamento
+
+Per estrarre solo alcune informazioni:
+```bash
+curl -s -H "x-windy-api-key: $WINDY_API_KEY" \
+  "https://api.windy.com/webcams/api/v3/webcams/1665404395" | \
+  jq '{title: .title, status: .status, lastUpdate: .lastUpdatedOn}'
+```
 
 ## Filtri Utili (da aggiungere alla query)
 - `nearby=lat,lon,radius` (es. "45.4642,9.1900,50km")

@@ -23,7 +23,7 @@ curl -s -H "x-windy-api-key: $WINDY_API_KEY" \
 
 ### 2. Ottenere informazioni su una specifica webcam (usa un ID dall'elenco precedente)
 ```bash
-WEB_CAM_ID="1234567890"  # Sostituisci con un ID valido
+WEB_CAM_ID="1665404395"  # Sostituisci con un ID valido
 curl -s -H "x-windy-api-key: $WINDY_API_KEY" \
   "https://api.windy.com/webcams/api/v3/webcams/$WEB_CAM_ID" | jq
 ```

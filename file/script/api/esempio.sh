@@ -29,15 +29,23 @@ echo "Recupero le webcam nel raggio di 30 km da Palermo..."
 RESPONSE=$(curl -s -H "x-windy-api-key: $API_KEY" \
   "https://api.windy.com/webcams/api/v3/webcams?nearby=$PALERMO_LAT,$PALERMO_LON,$RADIUS&limit=$LIMIT")
 
+# Debug: mostra la risposta API
+echo "Risposta API:"
+echo "$RESPONSE" | jq
+
 # Seleziona le 9 webcam più vicine con coordinate valide
 echo "Seleziono le 9 webcam più vicine con coordinate valide..."
 WEB_CAMS=$(echo "$RESPONSE" | jq -r --argjson lat "$PALERMO_LAT" --argjson lon "$PALERMO_LON" '
   .webcams | 
   map(select(.location.latitude != null and .location.longitude != null)) |
-  sort_by((.location.latitude - $lat) * (.location.latitude - $lat) + 
-          (.location.longitude - $lon) * (.location.longitude - $lon)) | 
+  sort_by(((.location.latitude - $lat) | . * .) + 
+          ((.location.longitude - $lon) | . * .)) | 
   .[0:9] | .[].webcamId
 ')
+
+# Debug: mostra le webcam selezionate
+echo "Webcam selezionate:"
+echo "$WEB_CAMS"
 
 # Verifica che ci siano webcam da processare
 if [ -z "$WEB_CAMS" ]; then
@@ -50,16 +58,36 @@ fi
 # Scarica le immagini daylight
 echo "Scarico le immagini daylight..."
 for WEB_CAM in $WEB_CAMS; do
-  IMAGE_URL=$(curl -s -H "x-windy-api-key: $API_KEY" \
-    "https://api.windy.com/webcams/api/v3/webcams/$WEB_CAM?include=images" | \
-    jq -r '.images.daylight.preview')
-
-  curl -s "$IMAGE_URL" -o "$OUTPUT_DIR/webcam_$WEB_CAM.jpg"
-  echo "Scaricata webcam $WEB_CAM"
+  echo "Processo webcam $WEB_CAM..."
+  
+  # Ottieni i dettagli della webcam
+  WEB_CAM_DATA=$(curl -s -H "x-windy-api-key: $API_KEY" \
+    "https://api.windy.com/webcams/api/v3/webcams/$WEB_CAM?include=images")
+  
+  # Debug: mostra i dati della webcam
+  echo "$WEB_CAM_DATA" | jq
+  
+  # Estrai URL immagine daylight
+  IMAGE_URL=$(echo "$WEB_CAM_DATA" | jq -r '.images.daylight.preview')
+  
+  if [ "$IMAGE_URL" != "null" ]; then
+    echo "Scarico immagine da $IMAGE_URL"
+    curl -s "$IMAGE_URL" -o "$OUTPUT_DIR/webcam_$WEB_CAM.jpg"
+    echo "Scaricata webcam $WEB_CAM"
+  else
+    echo "Nessuna immagine daylight disponibile per webcam $WEB_CAM"
+  fi
 done
 
 # Crea mosaico 3x3
 echo "Creo mosaico 3x3..."
-montage "$OUTPUT_DIR/*.jpg" -tile 3x3 -geometry +0+0 $MOSAIC_OUTPUT
+IMAGES=$(ls $OUTPUT_DIR/*.jpg 2>/dev/null | head -n 9)
+
+if [ -z "$IMAGES" ]; then
+  echo "Errore: Nessuna immagine scaricata"
+  exit 1
+fi
+
+montage $IMAGES -tile 3x3 -geometry +0+0 $MOSAIC_OUTPUT
 
 echo "Mosaico creato con successo: $MOSAIC_OUTPUT"

@@ -38,8 +38,8 @@ echo "Seleziono le 9 webcam più vicine con coordinate valide..."
 WEB_CAMS=$(echo "$RESPONSE" | jq -r --argjson lat "$PALERMO_LAT" --argjson lon "$PALERMO_LON" '
   .webcams | 
   map(select(.location.latitude != null and .location.longitude != null)) |
-  sort_by(((.location.latitude - $lat) | . * .) + 
-          ((.location.longitude - $lon) | . * .)) | 
+  sort_by(((.location.latitude - $lat) | tonumber | . * .) + 
+          ((.location.longitude - $lon) | tonumber | . * .)) | 
   .[0:9] | .[].webcamId
 ')
 
@@ -68,7 +68,12 @@ for WEB_CAM in $WEB_CAMS; do
   echo "$WEB_CAM_DATA" | jq
   
   # Estrai URL immagine daylight
-  IMAGE_URL=$(echo "$WEB_CAM_DATA" | jq -r '.images.daylight.preview')
+  IMAGE_URL=$(echo "$WEB_CAM_DATA" | jq -r '.images.daylight.preview?')
+  
+  # Se non c'è immagine daylight, usa l'immagine corrente
+  if [ "$IMAGE_URL" == "null" ] || [ -z "$IMAGE_URL" ]; then
+    IMAGE_URL=$(echo "$WEB_CAM_DATA" | jq -r '.images.current.preview?')
+  fi
   
   if [ "$IMAGE_URL" != "null" ]; then
     echo "Scarico immagine da $IMAGE_URL"

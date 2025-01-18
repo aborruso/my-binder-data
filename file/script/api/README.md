@@ -107,8 +107,24 @@ curl -s -H "x-windy-api-key: $WINDY_API_KEY" \
 ```
 
 ## Installazione dipendenze
-Se non hai curl o jq installati:
+Se non hai curl, jq o ImageMagick installati:
 ```bash
-sudo apt-get install curl jq  # Per Debian/Ubuntu
-brew install curl jq         # Per macOS
+sudo apt-get install curl jq imagemagick  # Per Debian/Ubuntu
+brew install curl jq imagemagick         # Per macOS
 ```
+
+## Esempio: Mosaico webcam Palermo
+Crea un mosaico 3x3 delle webcam vicino a Palermo:
+```bash
+# Rendi eseguibile lo script
+chmod +x esempio.sh
+
+# Esegui lo script
+./esempio.sh
+```
+
+Lo script:
+1. Trova le prime 9 webcam nel raggio di 30 km da Palermo
+2. Scarica le immagini daylight di ciascuna webcam
+3. Crea un mosaico 3x3 mantenendo la risoluzione originale
+4. Salva il risultato come mosaico_palermo.jpg

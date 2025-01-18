@@ -67,6 +67,19 @@ curl -s "$IMAGE_URL" -o milano_san_babila.jpg
 echo "Immagine salvata come milano_san_babila.jpg"
 ```
 
+### 7. Scaricare un'immagine daylight di Palermo: Massimo Theater - Piazza Verdi (ID 1398172386)
+```bash
+# Ottieni l'URL dell'immagine preview daylight
+IMAGE_URL=$(curl -s -H "x-windy-api-key: $WINDY_API_KEY" \
+  "https://api.windy.com/webcams/api/v3/webcams/1398172386?include=images" | \
+  jq -r '.images.daylight.preview')
+
+# Scarica e salva l'immagine
+curl -s "$IMAGE_URL" -o palermo_massimo_daylight.jpg
+
+echo "Immagine daylight salvata come palermo_massimo_daylight.jpg"
+```
+
 Questo esempio:
 1. Recupera l'URL dell'immagine preview
 2. Scarica l'immagine usando curl

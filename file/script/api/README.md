@@ -73,7 +73,7 @@ Questo esempio:
 3. La salva come file JPG
 
 ## Filtri Utili (da aggiungere alla query)
-- `nearby=lat,lon,radius` (es. "45.4642,9.1900,50km")
+- `nearby=lat,lon,radius` (es. "45.4642,9.1900,50")
 - `category=category_id` (es. "beach")
 - `country=country_code` (es. "IT")
 - `limit=numero` (default 10, max 100)

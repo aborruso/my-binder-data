@@ -1,5 +1,12 @@
 #!/bin/bash
 
+set -x
+set -e
+set -u
+set -o pipefail
+
+source ~/.api-keys
+
 # Verifica dipendenze
 command -v curl >/dev/null 2>&1 || { echo >&2 "curl non installato. Installalo con: sudo apt-get install curl"; exit 1; }
 command -v jq >/dev/null 2>&1 || { echo >&2 "jq non installato. Installalo con: sudo apt-get install jq"; exit 1; }
@@ -29,7 +36,7 @@ for WEB_CAM in $WEB_CAMS; do
   IMAGE_URL=$(curl -s -H "x-windy-api-key: $API_KEY" \
     "https://api.windy.com/webcams/api/v3/webcams/$WEB_CAM?include=images" | \
     jq -r '.images.daylight.preview')
-  
+
   curl -s "$IMAGE_URL" -o "$OUTPUT_DIR/webcam_$WEB_CAM.jpg"
   echo "Scaricata webcam $WEB_CAM"
 done

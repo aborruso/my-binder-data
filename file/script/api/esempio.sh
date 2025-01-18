@@ -26,7 +26,6 @@ CENTER_LON=$2
 RADIUS=30
 LIMIT=20  # Recuperiamo 20 webcam per poi selezionare le 9 più vicine
 OUTPUT_DIR="webcam_images"
-MOSAIC_OUTPUT="${OUTPUT_DIR}/mosaico_${WEB_CAMS// /_}.jpg"
 
 # Crea directory output principale
 mkdir -p $OUTPUT_DIR
@@ -68,6 +67,9 @@ if [ -z "$WEB_CAMS" ]; then
   echo "$RESPONSE" | jq
   exit 1
 fi
+
+# Definisci il nome del file mosaico dopo aver ottenuto le webcam
+MOSAIC_OUTPUT="${OUTPUT_DIR}/mosaico_${WEB_CAMS// /_}.jpg"
 
 # Scarica le immagini daylight
 echo "Scarico le immagini daylight..."

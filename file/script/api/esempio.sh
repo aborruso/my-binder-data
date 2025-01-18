@@ -29,11 +29,13 @@ echo "Recupero le webcam nel raggio di 30 km da Palermo..."
 RESPONSE=$(curl -s -H "x-windy-api-key: $API_KEY" \
   "https://api.windy.com/webcams/api/v3/webcams?nearby=$PALERMO_LAT,$PALERMO_LON,$RADIUS&limit=$LIMIT")
 
-# Seleziona le 9 webcam più vicine
-echo "Seleziono le 9 webcam più vicine..."
+# Seleziona le 9 webcam più vicine con coordinate valide
+echo "Seleziono le 9 webcam più vicine con coordinate valide..."
 WEB_CAMS=$(echo "$RESPONSE" | jq -r --argjson lat "$PALERMO_LAT" --argjson lon "$PALERMO_LON" '
-  .webcams | sort_by((.location.latitude - $lat) * (.location.latitude - $lat) + 
-                     (.location.longitude - $lon) * (.location.longitude - $lon)) | 
+  .webcams | 
+  map(select(.location.latitude != null and .location.longitude != null)) |
+  sort_by((.location.latitude - $lat) * (.location.latitude - $lat) + 
+          (.location.longitude - $lon) * (.location.longitude - $lon)) | 
   .[0:9] | .[].webcamId
 ')
 if [ -z "$WEB_CAMS" ]; then

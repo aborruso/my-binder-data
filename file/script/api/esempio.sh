@@ -12,22 +12,29 @@ command -v curl >/dev/null 2>&1 || { echo >&2 "curl non installato. Installalo c
 command -v jq >/dev/null 2>&1 || { echo >&2 "jq non installato. Installalo con: sudo apt-get install jq"; exit 1; }
 command -v montage >/dev/null 2>&1 || { echo >&2 "ImageMagick non installato. Installalo con: sudo apt-get install imagemagick"; exit 1; }
 
+# Verifica parametri
+if [ "$#" -ne 2 ]; then
+    echo "Usage: $0 <latitude> <longitude>"
+    echo "Example: $0 38.1295726276908 13.3471925068464"
+    exit 1
+fi
+
 # Configurazioni
 API_KEY=${WINDY_API_KEY}
-PALERMO_LAT=38.1295726276908
-PALERMO_LON=13.3471925068464
+CENTER_LAT=$1
+CENTER_LON=$2
 RADIUS=30
 LIMIT=20  # Recuperiamo 20 webcam per poi selezionare le 9 più vicine
 OUTPUT_DIR="webcam_images"
-MOSAIC_OUTPUT="mosaico_palermo.jpg"
+MOSAIC_OUTPUT="mosaico_${CENTER_LAT}_${CENTER_LON}.jpg"
 
 # Crea directory output
 mkdir -p $OUTPUT_DIR
 
-# Ottieni le prime 20 webcam vicino a Palermo
-echo "Recupero le webcam nel raggio di 30 km da Palermo..."
+# Ottieni le prime 20 webcam vicino alle coordinate specificate
+echo "Recupero le webcam nel raggio di 30 km da ($CENTER_LAT, $CENTER_LON)..."
 RESPONSE=$(curl -s -H "x-windy-api-key: $API_KEY" \
-  "https://api.windy.com/webcams/api/v3/webcams?nearby=$PALERMO_LAT,$PALERMO_LON,$RADIUS&limit=$LIMIT")
+  "https://api.windy.com/webcams/api/v3/webcams?nearby=$CENTER_LAT,$CENTER_LON,$RADIUS&limit=$LIMIT")
 
 # Debug: mostra la risposta API
 echo "Risposta API:"
@@ -43,7 +50,7 @@ done | jq -s)
 
 # Seleziona le 9 webcam più vicine con coordinate valide
 echo "Seleziono le 9 webcam più vicine con coordinate valide..."
-WEB_CAMS=$(echo "$WEB_CAMS_DETAILS" | jq -r --argjson lat "$PALERMO_LAT" --argjson lon "$PALERMO_LON" '
+WEB_CAMS=$(echo "$WEB_CAMS_DETAILS" | jq -r --argjson lat "$CENTER_LAT" --argjson lon "$CENTER_LON" '
   map(select(.location.latitude != null and .location.longitude != null)) |
   sort_by(((.location.latitude - $lat) | tonumber | . * .) + 
           ((.location.longitude - $lon) | tonumber | . * .)) | 

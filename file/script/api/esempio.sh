@@ -13,9 +13,9 @@ command -v jq >/dev/null 2>&1 || { echo >&2 "jq non installato. Installalo con: 
 command -v montage >/dev/null 2>&1 || { echo >&2 "ImageMagick non installato. Installalo con: sudo apt-get install imagemagick"; exit 1; }
 
 # Verifica parametri
-if [ "$#" -ne 2 ]; then
-    echo "Usage: $0 <latitude> <longitude>"
-    echo "Example: $0 38.1295726276908 13.3471925068464"
+if [ "$#" -ne 3 ]; then
+    echo "Usage: $0 <latitude> <longitude> <output_dir>"
+    echo "Example: $0 38.1295726276908 13.3471925068464 palermo_webcams"
     exit 1
 fi
 
@@ -25,10 +25,16 @@ CENTER_LAT=$1
 CENTER_LON=$2
 RADIUS=30
 LIMIT=20  # Recuperiamo 20 webcam per poi selezionare le 9 più vicine
-OUTPUT_DIR="webcam_images"
+OUTPUT_DIR=$3
+
+# Verifica se la directory esiste già
+if [ -d "$OUTPUT_DIR" ]; then
+    echo "Errore: La directory $OUTPUT_DIR esiste già"
+    exit 1
+fi
 
 # Crea directory output principale
-mkdir -p $OUTPUT_DIR
+mkdir -p "$OUTPUT_DIR"
 
 # Ottieni le prime 20 webcam vicino alle coordinate specificate
 echo "Recupero le webcam nel raggio di 30 km da ($CENTER_LAT, $CENTER_LON)..."
@@ -69,7 +75,7 @@ if [ -z "$WEB_CAMS" ]; then
 fi
 
 # Definisci il nome del file mosaico dopo aver ottenuto le webcam
-MOSAIC_OUTPUT="${OUTPUT_DIR}/mosaico_${WEB_CAMS// /_}.jpg"
+MOSAIC_OUTPUT="${OUTPUT_DIR}/mosaico.jpg"
 
 # Scarica le immagini daylight
 echo "Scarico le immagini daylight..."

@@ -38,7 +38,7 @@ curl -s -H "x-windy-api-key: $WINDY_API_KEY" \
 Esempio con filtri:
 ```bash
 curl -s -H "x-windy-api-key: $WINDY_API_KEY" \
-  "https://api.windy.com/webcams/api/v3/webcams?nearby=45.4642,9.1900,50km&limit=3" | jq
+  "https://api.windy.com/webcams/api/v3/webcams?nearby=45.4642,9.1900,50&limit=3" | jq
 ```
 
 ## Installazione dipendenze

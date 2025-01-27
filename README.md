@@ -1,0 +1,1 @@
+questo è un repo, che viene usato come parte dati e notebook, a supporto a un my binder. Al lancio di my binder verrà clonato questo repo e messo a disposizione. Scrivelo nel README.md nella root del repo
